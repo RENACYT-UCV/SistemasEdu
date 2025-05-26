@@ -1,0 +1,13 @@
+{% extends "base.html" %} 
+{% block content %}
+<h5>Registrar Documento</h5>
+
+<form action="{% url 'documento.store' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+  <label for="">Nombre</label>
+  <input type="text" class="form-control" name="nombre">
+  <label for="">Archivo</label>
+  <input type="file" class="form-control" name="archivo">
+  <button class="btn btn-primary btn-sm">Guardar</button>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+
+<!-- Mirrored from codervent.com/mons/syndron/demo/vertical/authentication-signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Mar 2023 12:49:16 GMT -->
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link rel="icon" href="static/assets/images/favicon-32x32.png" type="image/png" />
+	<!--plugins-->
+	<link href="/static/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="/static/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="/static/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<!-- loader-->
+	<link href="/static/assets/css/pace.min.css" rel="stylesheet"/>
+	<script src="/static/assets/js/pace.min.js"></script>
+	<!-- Bootstrstatic/ap CSS -->
+	<link href="/static/assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/assets/css/bootstrap-extended.css" rel="stylesheet">
+	<link href="/static/assets/css/app.css" rel="stylesheet">
+	<link href="/static/assets/css/icons.css" rel="stylesheet">
+	<title>Sistema Estudiante</title>
+    
+</head>
+
+{% block content %}
+
+	<body class="bg-login">
+
+		 <!--wrapper-->
+		 <div class="wrapper">
+			<div class="section-authentication-signin d-flex align-items-center justify-content-center">
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="col-md-6">
+							<div class="text-center mb-4">
+								<h2 class="text-center" style="font-size: 3rem;">Panel Estudiante</h2>
+								<p class="text-center" style="font-size: 1.6rem;">
+									Somos una institución dedicada a proporcionar educación de calidad.
+									Nuestro compromiso es con el crecimiento académico y personal de nuestros alumnos.
+								</p>
+							</div>
+	
+							<div class="card" style="background-image: url('/static/images/fondo_login_estudiante.jpg'); background-size: cover;">
+								<div class="card-body">
+									<div class="border p-4 rounded">
+										<div class="form-body">
+											<h4 class="text-center"  style="font-size: 1.8rem;">BIENVENIDOS</h4>
+											<form class="row g-3" method="POST">
+												{% csrf_token %}
+												<div class="col-12">
+													<label for="username" class="form-label" style="font-size: 1.2rem;">Usuario</label>
+													<input type="email" class="form-control" id="email" placeholder="Correo Electrónico" name="email" style="font-size: 1rem;">
+												</div>
+												<div class="col-12">
+													<label for="inputChoosePassword" class="form-label" style="font-size: 1.2rem;">Contraseña</label>
+													<div class="input-group" id="show_hide_password">
+														<input type="password" class="form-control border-end-0" autocomplete="new-password" id="inputChoosePassword" placeholder="Ingrese contraseña" name="password">
+														<a href="javascript:;" class="input-group-text bg-transparent" style="font-size: 1rem;">
+															<i class='bx bx-hide'></i>
+														</a>
+													</div>
+													<br>
+													<div class="input-group">
+														<label for="" style="font-size: 1.2rem;">¿Olvidaste tu Contraseña?</label>
+														<a href="{% url 'app_password_reset_form' %}">
+															<h5 style="font-size: 1.2rem;"> -> Restablece aquí tu Contraseña</h5>
+														</a>
+													</div>
+												</div>
+												<div class="col-12">
+													<div class="d-grid">
+														<button type="submit" class="btn btn-warning" style="font-size: 1.2rem;">
+															<i class="bx bxs-lock"></i>Ingresar
+														</button>
+													</div>
+												</div>
+												<div class="input-group">
+													<h5 style="font-size: 1.2rem;">¿Aún No tienes una cuenta?</h5>
+													<a href="{% url 'appNuevoUsuarioExterno' %}">
+														<h5 style="font-size: 1.2rem;"> -> Regístrate aquí</h5>
+													</a>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--end row-->
+				</div>
+			</div>
+		</div>
+		<!--end wrapper-->
+
+		<!--app JS-->
+		<script src="assets/js/app.js"></script>
+	</body>
+
+{% endblock content %}
+
+
+<!-- Mirrored from codervent.com/mons/syndron/demo/vertical/authentication-signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Mar 2023 12:49:16 GMT -->
+</html>

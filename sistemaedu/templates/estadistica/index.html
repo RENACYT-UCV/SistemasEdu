@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h4 style="text-align: center;">Seguimiento Estadístico</h4>
+    <div class="row">
+        <h5>Visualizaciones Vídeos</h5>
+        <div class="col-md-8">
+            <div id="chartDatosReproducciones"> </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block js %}
+  <script src="/static/apexcharts/apexcharts.js"></script>
+    <script>
+        
+      $(document).ready(function() {
+        datos_reproducciones();        
+    });
+
+        function datos_reproducciones(){
+            $.ajax({
+                type: "GET",
+                url: "/datos/reproducciones/",
+                dataType: "json",
+                success: function (data) {
+                  grafDatosReproducciones(data)
+                }
+            });
+        };
+
+
+        function grafDatosReproducciones(data) { 
+      
+            const series_array = [];
+            const labels_array = [];
+            
+            data.reproducciones.forEach(item => {
+              labels_array.push(item.nombre); 
+              series_array.push(item.reproducciones)
+            });
+  
+              var options = {
+                series: series_array,
+                chart: {
+                width: 380,
+                type: 'pie',
+              },
+              labels: labels_array,
+              responsive: [{
+                breakpoint: 480,
+                options: {
+                  chart: {
+                    width: 200
+                  },
+                  legend: {
+                    position: 'bottom'
+                  }
+                }
+              }]
+              };
+  
+              var chart = new ApexCharts(document.querySelector("#chartDatosReproducciones"), options);
+              chart.render();
+        }
+    </script>
+{% endblock js %}

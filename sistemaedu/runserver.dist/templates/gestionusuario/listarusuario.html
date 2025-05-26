@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block content %}
+
+		
+		<div class="text" text align="center">
+			<h3>Lista de Usuarios</h3>
+		</div>
+        <a href="{% url 'appNuevoUsuario'%}" class="btn btn-primary btn-sm">Nuevo</a>
+
+        
+        <div class="col-md-12">
+        <br>
+		<table id="example2" class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th scope="col">Nro</th>
+		      <th scope="col">Nombre Usuario</th>
+		      <th scope="col">Nombre</th>
+		      <th scope="col">Apellido</th>
+		      <th scope="col">Correo</th>
+			  <th scope="col">IsActivo?</th>
+			  <th scope="col">IsStaff?</th>
+		      <th scope="col">Acciones</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		      {% for usu in usuarios %}
+			      <tr class= "class-default">
+			      	<td>{{ usu.id }}</td>
+			      	<td>{{ usu.username }}</td>
+			      	<td>{{ usu.first_name }}</td>
+			      	<td>{{ usu.last_name }}</td>
+			      	<td>{{ usu.email }}</td>
+					  <td>{{ usu.is_active }}</td>
+					  <td>{{ usu.is_staff }}</td>
+			      	<td>					
+					
+						<a href="" class="btn btn-danger btn-sm btnEliminarUsuario">Eliminar</a>
+						<a href="{% url 'appEditarUsuario' user_id=usu.id %}" class="btn btn-warning btn-sm">Editar</a>
+						<a href="" class="btn btn-info btn-sm btnCambiarPassword" >Cambiar Password</a>
+			      	</td>
+			      </tr>	
+		      {% endfor %}
+		  </tbody>
+		</table>
+		<div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalCambiarPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Cambiar Contraseña</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="{% url 'appCambiarPassword' %}" method="POST">{% csrf_token %}
+						<input type="text" name="id_usuario" id="id_usuario" hidden>
+						<label for="">Escribe tu contraseña</label>
+						<input type="password" class="form-control form-control-sm" name="password">
+						<br>
+						<label for="">Reescribe tu contraseña</label>
+						<input type="password" class="form-control form-control-sm">
+						<br>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Salir</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalEliminarUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Eliminar Usurio</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="{% url 'appEliminarUsuario' %}" method="POST">{% csrf_token %}
+						<input type="text" name="id_usuario_eliminar" id="id_usuario_eliminar" hidden>
+						<label for="">Confirme por favor para poder eliminar Usuario</label>
+
+						<br>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-danger btn-sm">Sí, Eliminar</button>
+						<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Salir</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+{% block js %}
+	<script>
+		$(document).on("click",".btnCambiarPassword",function(e){
+			e.preventDefault()
+			fila=$(this).closest("tr");
+			id=(fila).find('td:eq(0)').text();
+			$("#id_usuario").val(id);
+			$("#modalCambiarPassword").modal('show');
+		});
+		
+		$(document).on("click",".btnEliminarUsuario",function(e){
+			e.preventDefault()
+			fila=$(this).closest("tr");
+			id=(fila).find('td:eq(0)').text();
+			$("#id_usuario_eliminar").val(id);
+			$("#modalEliminarUsuario").modal('show');
+		});
+		
+
+	</script>
+{% endblock js %}

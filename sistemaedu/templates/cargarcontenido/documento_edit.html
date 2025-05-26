@@ -1,0 +1,15 @@
+{% extends "base.html" %} 
+{% block content %}
+<h4>Editar Documento</h4>
+<form action="{% url 'documento.update' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <input type="text" value="{{documento.id}}" name="id_documento" hidden>
+    <label for="">Nombre</label>
+    <input type="text" class="form-control" value="{{documento.nombre}}" name="nombre">
+    <label for="">Archivo</label>
+    <input type="file" class="form-control" name="archivo">
+    <label for="">Documento actual -> {{documento.archivo}}</label>
+  <br>
+  <button class="btn btn-primary btn-sm">Guardar</button>
+</form>
+
+{% endblock content %}

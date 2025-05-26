@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{% url 'resumen.update' %}" method="POST">{% csrf_token %}
+    <input type="text" class="form-control" name="id_resumen" value="{{resumen.id}}">
+    <label for="">Nombre</label>
+    <input type="text" class="form-control" name="nombre" value={{resumen.nombre}}>
+    <label for="">Resumen</label>
+    <textarea name="resumen" id="" cols="30" rows="10" class="form-control">{{resumen.resumen}}</textarea>
+    <label for="">ResumenAI</label>
+    <textarea name="resumen_ai" id="" cols="30" rows="10" class="form-control">{{resumen.resumen_ai}}</textarea>
+    <br>
+    <button class="btn btn-primary btn-sm">Guardar</button>
+</form>
+    
+{% endblock content %}

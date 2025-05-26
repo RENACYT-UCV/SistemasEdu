@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <h5>Videos Clases del Marte 05 Junio 2024</h5>
+    {% for vid in videos %}
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <video id="{{ vid.id }}" onclick="reproduccion({{ vid.id }});"  width="320" height="240" controls>
+                        <source src="{{ vid.get_video_resumen_url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <h5>Descripción</h5>
+                    <p>{{vid.descripcion}}</p>
+                    <h5>Texto</h5>
+                    <p>{{vid.texto}}</p>
+                    <h5>Resumen AI</h5>
+                    <p>{{vid.texto_resumen}}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock content %}
+
+{% block js %}
+
+    <script>
+
+            function reproduccion(id){
+                let datos = {}
+                datos.video_id=id
+                var videoElement = $('#'+id);
+
+                videoElement.on('play', function() {
+                    console.log('El video ha comenzado a reproducirse');
+                    
+                    // Aquí puedes enviar una solicitud al servidor para registrar la reproducción del video
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'appregistrarreproduccion' %}",
+                        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                        dataType: "json",
+                        data:datos,
+                        success: function(response) {
+                            console.log('Reproducción registrada exitosamente');
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error al registrar la reproducción');
+                        }
+                    });
+                });
+
+                
+
+            }
+
+
+    </script>
+{% endblock js %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    {% comment %} <div class="col-sm-6">
+        <div class="card card-responsive">
+            <div class="card-body">
+                <a href="{% url 'resumen.create' %}" class="btn btn-primary btn-sm">Cargar Contenido</a>
+                <h5>Resumen</h5>
+                <table class="table table-stripped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>nombre</th>
+                            <th>resumen</th>
+                            <th>accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resum in resumenes %}
+                            <tr>
+                                <td>{{resum.id}}</td>
+                                <td>{{ resum.nombre }}</td>
+                                <td>{{ resum.resumen }}</td>
+                                <td><a href="{% url 'resumen.edit' resum.id %}" class="btn btn-warning btn-sm">Editar</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <a href="{% url 'documento.create' %}" class="btn btn-primary btn-sm">Cargar Contenido</a>
+                <h5>Documento</h5>
+                <table class="table table-stripped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>nombre</th>
+                            <th>archivo</th>
+                            <th>accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doc in documentos %}
+                            <tr>
+                                <td>{{doc.id}}</td>
+                                <td>{{doc.nombre}}</td>
+                                <td><a href="{{doc.get_documento_url}}">{{doc.archivo}}</a></td>
+                                <td><a href="{% url 'documento.edit' doc.id %}" class="btn btn-warning btn-sm">Editar</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> {% endcomment %}
+
+    <div class="col-sm-12">
+        <div class="card card-responsive">
+            <div class="card-body">
+                <a href="{% url 'video.create' %}" class="btn btn-primary btn-sm">Cargar Contenido</a>
+                <h5>Video</h5>
+                <table class="table table-stripped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>nombre</th>
+                            <th>descripcion</th>
+                            <th>video</th>
+                            <th>genera_alumno</th>
+                            <th>accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vid in videos %}
+                            <tr>
+                                <td>{{vid.id}}</td>
+                                <td>{{vid.descripcion}}</td>
+                                <td>{{vid.video}}</td>
+                                <td>
+                                    <video width="220" height="140" controls>
+                                        <source src="{{ vid.get_video_url }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <br>
+                                    {{vid.video}}
+                                </td>
+                                <td>
+                                    {% if vid.genera_alumno %}
+                                        Si
+                                    {% else %}  
+                                        No
+                                    {% endif %}
+                                    
+                                </td>
+                                {% for group in user.groups.all %}
+                                {% if group.name == 'Admin' %}
+                                        <td>
+                                            <a href="{% url 'video.edit' vid.id %}" class="btn btn-warning btn-sm">Editar</a>
+                                            <a href="{% url 'video.delete' vid.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

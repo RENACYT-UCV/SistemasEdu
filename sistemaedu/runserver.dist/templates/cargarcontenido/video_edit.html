@@ -1,0 +1,38 @@
+{% extends "base.html" %} 
+{% block content %}
+<h5>Editar Registro</h5>
+<form action="{% url 'video.update' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+  <label for="">Nombre</label>
+  <input type="text" name="id_video" value="{{video.id}}" hidden>
+  <input type="text" class="form-control" name="nombre" value="{{video.nombre}}">
+  <br>
+  <label for="">Descripcion</label>
+  <textarea type="text" class="form-control" name="descripcion">{{video.descripcion}}</textarea>
+  <br>
+
+  {% for group in user.groups.all %}
+    {% if group.name == 'Admin' %}
+    
+      <label for="">Gestiona el Usuario?</label>
+      <select name="genera_alumno" id="" class="form form-select">
+        {% if video.genera_alumno %}
+          <option value="1" selected>Si</option>
+          <option value="0">No</option>
+        {% else %}
+          <option value="0" selected>No</option>
+          <option value="1">Si</option>
+        {% endif %}
+      </select>
+      
+    {% endif %}
+  {% endfor %}
+
+  <br>
+  <label for="">Video</label>
+  <input type="file" class="form-control" name="video">
+  <h5>Nombre Video actual: {{video.video}}</h5>
+  <br>
+  <button class="btn btn-primary btn-sm">Guardar</button>
+</form>
+
+{% endblock content %}

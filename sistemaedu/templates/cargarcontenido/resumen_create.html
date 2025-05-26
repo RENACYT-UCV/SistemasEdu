@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{% url 'resumen.store' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <label for="">Nombre</label>
+    <input type="text" class="form-control" name="nombre">
+    <label for="">Resumen</label>
+    <textarea name="resumen" id="" cols="30" rows="10" class="form-control"></textarea>
+    <br>
+    <button class="btn btn-primary btn-sm">Guardar</button>
+</form>
+    
+{% endblock content %}

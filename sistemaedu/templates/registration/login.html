@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+
+
+<!-- Mirrored from codervent.com/mons/syndron/demo/vertical/authentication-signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Mar 2023 12:49:16 GMT -->
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link rel="icon" href="static/assets/images/favicon-32x32.png" type="image/png" />
+	<!--plugins-->
+	<link href="/static/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="/static/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="/static/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<!-- loader-->
+	<link href="/static/assets/css/pace.min.css" rel="stylesheet"/>
+	<script src="/static/assets/js/pace.min.js"></script>
+	<!-- Bootstrstatic/ap CSS -->
+	<link href="/static/assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/assets/css/bootstrap-extended.css" rel="stylesheet">
+	<link href="/static/assets/css/app.css" rel="stylesheet">
+	<link href="/static/assets/css/icons.css" rel="stylesheet">
+	<style>
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .key {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            transition: background-color 0.3s;
+        }
+        .key:hover {
+            background-color: #ddd;
+        }
+
+    </style>
+	<title>Login Admin</title>
+</head>
+
+{% block content %}
+
+<body class="bg-login">
+    <!--wrapper-->
+    <div class="wrapper">
+        <div class="section-authentication-signin d-flex align-items-center justify-content-center">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="text-center mb-4">
+                            <img src="assets/images/logo-img.png" alt="" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                                <div>
+                                    <h2 class="text-center">Panel Admin</h2>
+                                    <p class="text-center">Somos una institución dedicada a proporcionar educación de calidad. Nuestro compromiso es con el crecimiento académico y personal de nuestros alumnos.</p>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="border p-4 rounded">
+                                                <div class="form-body">
+                                                    <h4 class="text-center">BIENVENIDO AL LOGIN ADMINISTRATIVO</h4>
+                                                    <form class="row g-3" method="POST">
+                                                        {% csrf_token %}
+                                                        <div class="col-12">
+                                                            <label for="username" class="form-label">Usuario</label>
+                                                            <input type="text" class="form-control" id="username" placeholder="nombre de usuario" name="username">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <label for="inputChoosePassword" class="form-label">Contraseña</label>
+                                                            <div class="input-group" id="show_hide_password">
+                                                                <input type="password" autocomplete="new-password" class="form-control border-end-0" id="inputChoosePassword" placeholder="Ingrese Password" name="password" readonly>
+                                                                <a href="javascript:;" class="input-group-text bg-transparent">
+                                                                    <i class='bx bx-hide'></i>
+                                                                </a>
+                                                            </div>
+                                                            <br>
+                                                            <div class="input-group">
+                                                                <label for="">¿Olvidaste tu Contraseña?</label>
+                                                                <a href="{% url 'app_password_reset_form' %}">Restablecer Contraseña</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="d-grid">
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    <i class="bx bxs-lock-open"></i>Iniciar Sesión
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <label for="">¿No tienes una cuenta?</label>
+                                                            <a href="{% url 'appNuevoUsuarioExterno' %}">Regístrate</a>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 style="text-align: center;">Teclado Virtual</h5>
+                                        <div class="keyboard">
+                                            <div class="key" onclick="addToOutput('1')">1</div>
+                                            <div class="key" onclick="addToOutput('2')">2</div>
+                                            <div class="key" onclick="addToOutput('3')">3</div>
+                                            <div class="key" onclick="addToOutput('4')">4</div>
+                                            <div class="key" onclick="addToOutput('5')">5</div>
+                                            <div class="key" onclick="addToOutput('6')">6</div>
+                                            <div class="key" onclick="addToOutput('7')">7</div>
+                                            <div class="key" onclick="addToOutput('8')">8</div>
+                                            <div class="key" onclick="addToOutput('9')">9</div>
+                                            <div class="key" onclick="addToOutput('0')">0</div>
+                                            <div class="key" onclick="deleteOne()">< Clear</div>
+                                            <div class="key" onclick="clearOutput()"> << Clear All</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end row-->
+            </div>
+        </div>
+    </div>
+		<!--end wrapper-->
+		
+			
+			<script src="/static/assets/js/jquery-3.7.1.min.js"></script>
+			
+			
+		<!--app JS-->
+		<script>
+			function addToOutput(char) {
+				
+				const output = document.getElementById('inputChoosePassword');
+				output.value += char;
+			}
+		
+			function deleteOne() {
+				const output = document.getElementById('inputChoosePassword');
+				output.value = output.value.slice(0, -1);
+			}
+		
+			function clearOutput() {
+				const output = document.getElementById('inputChoosePassword');
+				output.value = '';
+			}
+		</script>
+		
+	</body>
+
+{% endblock content %}
+
+
+<!-- Mirrored from codervent.com/mons/syndron/demo/vertical/authentication-signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Mar 2023 12:49:16 GMT -->
+</html>

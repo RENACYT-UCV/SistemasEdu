@@ -1,0 +1,31 @@
+{% extends "base.html" %} 
+{% block content %}
+<h5>Nuevo Video</h5>
+<form action="{% url 'video.store' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+  <label for="">Nombre</label>
+  <input type="text" class="form-control" name="nombre">
+  <br>
+  <label for="">Descripcion</label>
+  <textarea type="text" class="form-control" name="descripcion"></textarea>
+  <br>
+  <label for="">Video</label>
+  <input type="file" class="form-control" name="video">
+  <br>
+  
+  {% for group in user.groups.all %}
+    {% if group.name == 'Admin' %}
+      
+    <label for="">Gestiona el Usuario?</label>
+      <select name="genera_alumno" id="" class="form form-select">
+        <option value="0" selected>No</option>
+        <option value="1">Si</option>
+      </select>
+
+    {% endif %}
+  {% endfor %}
+
+  <br>
+  <button class="btn btn-primary btn-sm">Guardar</button>
+</form>
+
+{% endblock content %}
