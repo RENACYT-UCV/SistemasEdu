@@ -78,8 +78,8 @@
                         {% for vid in videos %}
                             <tr>
                                 <td>{{vid.id}}</td>
+                                <td>{{vid.nombre}}</td>
                                 <td>{{vid.descripcion}}</td>
-                                <td>{{vid.video}}</td>
                                 <td>
                                     <video width="220" height="140" controls>
                                         <source src="{{ vid.get_video_url }}" type="video/mp4">
