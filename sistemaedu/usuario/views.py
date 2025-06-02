@@ -55,12 +55,12 @@ def RegistroUsuarioExterno(request):
             user.save()
 
             # Asignar el grupo al usuario
-            group = Group.objects.get(id=2)
+            group = Group.objects.get(name='Estudiante')
             user.groups.add(group)
-            messages.success(request, 'Usuario registrado exitosamente y asignado al grupo.')
+            messages.success(request, 'Usuario registrado exitosamente.')
 
 
-            return redirect('appNuevoUsuarioExterno')
+            return redirect('login_estudiante')
 
 
     return render(request, 'registration/register_external.html', {'form':form,'modo':modo})

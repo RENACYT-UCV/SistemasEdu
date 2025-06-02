@@ -142,29 +142,42 @@
 		<!--end wrapper-->
 		
 			
+			<!--app JS-->
 			<script src="/static/assets/js/jquery-3.7.1.min.js"></script>
+			<script>
+				function addToOutput(char) {
+					const output = document.getElementById('inputChoosePassword');
+					output.value += char;
+				}
 			
+				function deleteOne() {
+					const output = document.getElementById('inputChoosePassword');
+					output.value = output.value.slice(0, -1);
+				}
 			
-		<!--app JS-->
-		<script>
-			function addToOutput(char) {
-				
-				const output = document.getElementById('inputChoosePassword');
-				output.value += char;
-			}
-		
-			function deleteOne() {
-				const output = document.getElementById('inputChoosePassword');
-				output.value = output.value.slice(0, -1);
-			}
-		
-			function clearOutput() {
-				const output = document.getElementById('inputChoosePassword');
-				output.value = '';
-			}
-		</script>
-		
-	</body>
+				function clearOutput() {
+					const output = document.getElementById('inputChoosePassword');
+					output.value = '';
+				}
+
+				// Código para mostrar/ocultar contraseña
+				$(document).ready(function() {
+					$("#show_hide_password a").on('click', function(event) {
+						event.preventDefault();
+						if($("#show_hide_password input").attr("type") == "text"){
+							$("#show_hide_password input").attr('type', 'password');
+							$("#show_hide_password i").addClass("bx-hide");
+							$("#show_hide_password i").removeClass("bx-show");
+						}else if($("#show_hide_password input").attr("type") == "password"){
+							$("#show_hide_password input").attr('type', 'text');
+							$("#show_hide_password i").removeClass("bx-hide");
+							$("#show_hide_password i").addClass("bx-show");
+						}
+					});
+				});
+			</script>
+			
+		</body>
 
 {% endblock content %}
 
