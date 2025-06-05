@@ -9,6 +9,12 @@
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Asegura que el body ocupe al menos la altura de la ventana */
+      }
+      .content {
+        flex: 1; /* Esto permite que la sección de bienvenida ocupe el espacio restante */
       }
       .welcome-section {
         padding: 60px 15px;
@@ -74,6 +80,7 @@
         background-color: #222;
         color: #ddd;
         padding: 40px 15px 20px;
+        margin-top: auto; /* Hace que el footer se mueva al final */
       }
       footer h5 {
         color: #fff;
@@ -99,35 +106,38 @@
     </style>
   </head>
   <body>
-    <!-- Welcome Section -->
-    <section class="welcome-section container">
-      <div class="row align-items-center">
-        <div class="col-md-6 welcome-text">
-          <h2>Bienvenidos a nuestra página</h2>
-          <p>
-            Somos una institución dedicada a proporcionar educación de calidad.
-            Nuestro compromiso es con el crecimiento académico y personal de
-            nuestros alumnos.
-          </p>
-          <div
-            class="btn-group btn-group-custom"
-            role="group"
-            aria-label="Botones de acceso"
-          >
-            <a href="/login_admin" class="btn btn-primary">ADMIN</a>
-            <a href="/login_estudiante" class="btn btn-warning">ESTUDIANTE</a>
-            <a href="/admin" class="btn btn-superadmin">S.USUARIO</a>
+    <!-- Contenedor de contenido principal -->
+    <div class="content">
+      <!-- Welcome Section -->
+      <section class="welcome-section container">
+        <div class="row align-items-center">
+          <div class="col-md-6 welcome-text">
+            <h2>Bienvenidos a nuestra página</h2>
+            <p>
+              Somos una institución dedicada a proporcionar educación de calidad.
+              Nuestro compromiso es con el crecimiento académico y personal de
+              nuestros alumnos.
+            </p>
+            <div
+              class="btn-group btn-group-custom"
+              role="group"
+              aria-label="Botones de acceso"
+            >
+              <a href="/login_admin" class="btn btn-primary">ADMIN</a>
+              <a href="/login_estudiante" class="btn btn-warning">ESTUDIANTE</a>
+              <a href="/admin" class="btn btn-superadmin">S.USUARIO</a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <img
+              src="/static/images/img-nosotros.jpg"
+              alt="Imagen de bienvenida"
+              class="welcome-image"
+            />
           </div>
         </div>
-        <div class="col-md-6">
-          <img
-            src="/static/images/img-nosotros.jpg"
-            alt="Imagen de bienvenida"
-            class="welcome-image"
-          />
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <!-- Footer -->
     <footer>
