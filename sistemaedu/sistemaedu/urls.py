@@ -14,20 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.shortcuts import redirect
 
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('login/', include('home.urls')),  # Redirigir a /login
-    path('', include('home.urls')),
-    path('', include('cargarcontenido.urls')),
-    path('', include('usuario.urls')),
-    path('', include('gestionarcontenido.urls')),
-    path('', include('estadistica.urls')),
-    path('', include('contenidoalumno.urls')),
+    path('', TemplateView.as_view(template_name='public_home.html'), name='public_home'),  # Esta es la página principal
+    path('login/', include('home.urls')),
+    path('cargar/', include('cargarcontenido.urls')),
+    path('usuario/', include('usuario.urls')),
+    path('gestionarcontenido/', include('gestionarcontenido.urls')),
+    path('estadistica/', include('estadistica.urls')),
+    path('contenidoalumno/', include('contenidoalumno.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')), #new
+    path('accounts/', include('django.contrib.auth.urls')),
 
+   # Ruta para el login del estudiante 
+    path('login_estudiante/', TemplateView.as_view(template_name='registration/login_estudiante.html'), name='login_estudiante'),
+ # Ruta para el login del admin 
+    path('login_admin', TemplateView.as_view(template_name='registration/login.html'), name='admin_login'),
 
 ]
