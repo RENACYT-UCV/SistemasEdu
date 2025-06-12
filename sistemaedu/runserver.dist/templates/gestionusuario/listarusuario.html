@@ -57,10 +57,10 @@
 				<div class="modal-body">
 					<form action="{% url 'appCambiarPassword' %}" method="POST">{% csrf_token %}
 						<input type="text" name="id_usuario" id="id_usuario" hidden>
-						<label for="">Escribe tu contraseña</label>
+						<label for="">Escribe la nueva contraseña</label>
 						<input type="password" class="form-control form-control-sm" name="password">
 						<br>
-						<label for="">Reescribe tu contraseña</label>
+						<label for="">Reescribe la nueva contraseña</label>
 						<input type="password" class="form-control form-control-sm">
 						<br>
 					</div>

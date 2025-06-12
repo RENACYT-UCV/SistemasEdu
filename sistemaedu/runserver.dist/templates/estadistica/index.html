@@ -1,68 +1,89 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<h4 style="text-align: center">Seguimiento Estadístico</h4>
+<div class="row">
+  <h5>Visualizaciones Vídeos</h5>
+  <div class="col-md-8">
+    <div id="chartDatosReproducciones"></div>
+  </div>
+</div>
+{% endblock content %} {% block js %}
+<script src="/static/apexcharts/apexcharts.js"></script>
+<script>
+  $(document).ready(function () {
+    datos_reproducciones();
+  });
 
-{% block content %}
-    <h4 style="text-align: center;">Seguimiento Estadístico</h4>
-    <div class="row">
-        <h5>Visualizaciones Vídeos</h5>
-        <div class="col-md-8">
-            <div id="chartDatosReproducciones"> </div>
-        </div>
-    </div>
+  function datos_reproducciones() {
+    $.ajax({
+      type: "GET",
+      url: "/datos/reproducciones/",
+      dataType: "json",
+      success: function (data) {
+        grafDatosReproducciones(data);
+      },
+      error: function () {
+        console.error("No se pudieron cargar los datos.");
+      },
+    });
+  }
 
-{% endblock content %}
+  function grafDatosReproducciones(data) {
+    const series_array = [];
+    const labels_array = [];
 
-{% block js %}
-  <script src="/static/apexcharts/apexcharts.js"></script>
-    <script>
-        
-      $(document).ready(function() {
-        datos_reproducciones();        
+    // Obtener los datos reales (aunque sean ceros)
+    data.reproducciones.forEach((item) => {
+      labels_array.push(item.nombre);
+      series_array.push(item.reproducciones);
     });
 
-        function datos_reproducciones(){
-            $.ajax({
-                type: "GET",
-                url: "/datos/reproducciones/",
-                dataType: "json",
-                success: function (data) {
-                  grafDatosReproducciones(data)
-                }
-            });
-        };
+    const options = {
+      series: [
+        {
+          name: "Reproducciones",
+          data: series_array,
+        },
+      ],
+      chart: {
+        type: "bar",
+        height: 300,
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: false,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+      },
+      xaxis: {
+        categories: labels_array,
+      },
+      title: {
+        text: "Reproducciones por video",
+        align: "center",
+      },
+      noData: {
+        text: "No hay datos para mostrar",
+      },
+    };
 
+    const chart = new ApexCharts(
+      document.querySelector("#chartDatosReproducciones"),
+      options
+    );
+    chart.render();
+  }
+</script>
 
-        function grafDatosReproducciones(data) { 
-      
-            const series_array = [];
-            const labels_array = [];
-            
-            data.reproducciones.forEach(item => {
-              labels_array.push(item.nombre); 
-              series_array.push(item.reproducciones)
-            });
-  
-              var options = {
-                series: series_array,
-                chart: {
-                width: 380,
-                type: 'pie',
-              },
-              labels: labels_array,
-              responsive: [{
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 200
-                  },
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }]
-              };
-  
-              var chart = new ApexCharts(document.querySelector("#chartDatosReproducciones"), options);
-              chart.render();
-        }
-    </script>
+<style>
+  #chartDatosReproducciones {
+    min-height: 300px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+</style>
 {% endblock js %}

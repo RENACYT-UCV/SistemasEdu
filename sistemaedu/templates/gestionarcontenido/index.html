@@ -1,179 +1,160 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>Gestionar Contenido de Videos</h4>
-                        <table class="table table stripped">
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>nombre</th>
-                                    <th>video</th>
-                                    <th>accion</th>
-                                    <th>video resumen</th>
-                                    <th>audio</th>
-                                    <th>texto</th>
-                                    <th>texto_resumen</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for vid in videos %}
-                                    <tr>
-                                        <td>{{vid.id}}</td>
-                                        <td>{{vid.nombre}}</td>
-                                        <td>
-                                            <video width="320" height="240" controls>
-                                                <source src="{{ vid.get_video_url }}" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        </td>
-                                        
-                                        {% for group in user.groups.all %}
-	                		                {% if group.name == 'Admin' %}
-                                                <td><button class="btn btn-primary btn-sm" type="button" onclick="btnProcesar('{{vid.id}}')">Procesar</button></td>
-                                            {% endif %}
-                                        {% endfor %}
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Gestionar Contenido de Videos</h4>
+        <p>Total de videos: {{ videos|length }}.</p>
+        <table class="table table stripped">
+          <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Video</th>
+                                    
+                <th>Accion</th>
+                <th>Resumen</th>
+                <th>Audio</th>
+                <th>Transcripción</th>
+                <th>Transcripción Resumen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for vid in videos %}
+            <tr>
+              <td>{{ vid.id }}</td>
+              <td>{{ vid.nombre }}</td>
+              <td>
+                <video
+                  id="video-original-{{ vid.id }}"
+                  width="320"
+                  height="240"
+                  controls
+                  onplaying="registrarReproduccion('{{ vid.id }}', 'original')"
+                >
+                  <source src="{{ vid.get_video_url }}" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </td>
 
-                                        {% for group in user.groups.all %}
-	                		                {% if group.name == 'Estudiante' %}
-                                                {% if vid.genera_alumno %}
-                                                    <td><button class="btn btn-primary btn-sm" type="button" onclick="btnProcesar('{{vid.id}}')">Procesar</button></td>
-                                                {% else %}
-                                                    <td>N/A</td>
-                                                {% endif %}
-                                            {% endif %}
-                                        {% endfor %}
+              <td>
+                    {% for group in user.groups.all %}
+	                	{% if group.name == 'Admin' %}
+                            <button class="btn btn-primary btn-sm" type="button" onclick="btnProcesar('{{vid.id}}')">Procesar</button>
+                                                
+                            {% endif %}
                                         
-                                        
-            
-                                        <td>
-                                            {% if  vid.get_video_resumen_url %}
-                                                <video width="320" height="240" controls>
-                                                    <source src="{{ vid.get_video_resumen_url }}" type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>
-                                            {% endif %}
-                                        </td>
-                                        
-                                        <td>
-                                            {% if vid.get_audio_url %}
-                                                <audio controls>
-                                                    <source src="{{vid.get_audio_url}}" type="audio/wav">
-                                                    Tu navegador no soporta la reproducción de audio.
-                                                </audio>
-                                            {% endif %}
-                                        </td>
-                                        <td>{{vid.texto}}</td>
-                                        <td>{{vid.texto_resumen}}</td>
+	                		{% if group.name == 'Estudiante' %}
+                                {% if vid.genera_alumno %}
+                                <button class="btn btn-primary btn-sm" type="button" onclick="btnProcesar('{{vid.id}}')">Procesar</button>
+                                {% else %}
+                                N/A
+                            {% endif %}
+                                                                                                    
+                        {% endif %}
+                    {% endfor %}
+              </td>
+              <td>
+                {% if vid.get_video_resumen_url %}
+                <video
+                  id="video-resumen-{{ vid.id }}"
+                  width="320"
+                  height="240"
+                  controls
+                  
+                  onplaying="registrarReproduccion('{{ vid.id }}', 'resumen')"
+                >
+                  <source src="{{ vid.get_video_resumen_url }}" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                {% endif %}
+              </td>
 
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-                {% comment %} <div class="col-md-12">
-                    <h4>Gestionar Contenido de Resúmenes</h4>
-                    <table class="table table responsive table-stripped">
-                        <thead>
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>nombre</th>
-                                    <th>resumen</th>
-                                    <th>acción</th>
-                                    <th>resumen</th>
-                                </tr>
-                            </thead>
-                        </thead>
-                        <tbody>
-                            {% for res in resumenes %}
-                                <tr>
-                                    <td>{{res.id}}</td>
-                                    <td>{{res.nombre}}</td>
-                                    <td>{{res.resumen}}</td>
-                                    <td><button class="btn btn-primary btn-sm" onclick="btnProcesarResumen('{{res.id}}')">Procesar</button></td>
-                                    <td>{{res.resumen_ai}}</td>
-                                </tr>
-                              
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-12">
-                    <h4>Gestionar Contenido de Documentos</h4>
-                    <table class="table table responsive table-stripped">
-                        <thead>
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>nombre</th>
-                                    <th>archivo</th>
-                                    <th>acción</th>
-                                    <th>contenido</th>
-                                    <th>resumen_ai</th>
-                                </tr>
-                            </thead>
-                        </thead>
-                        <tbody>
-                            {% for doc in documentos %}
-                                <tr>
-                                    <td>{{doc.id}}</td>
-                                    <td>{{doc.nombre}}</td>
-                                    <td><a href="{{doc.get_documento_url}}">{{doc.archivo}}</a></td>
-                                    <td><button class="btn btn-primary btn-sm" onclick="btnProcesarDocumento('{{doc.id}}')">Procesar</button></td>
-                                    <td>{{doc.contenido_texto}}</td>
-                                    <td>{{doc.resumen_ai}}</td>
-                                </tr>
-                              
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div> {% endcomment %}
-            </div>
-        </div>
+              <td>
+                {% if vid.get_audio_url %}
+                <audio controls>
+                  <source src="{{ vid.get_audio_url }}" type="audio/wav" />
+                  Tu navegador no soporta la reproducción de audio.
+                </audio>
+                {% endif %}
+              </td>
+              <td>{{ vid.texto }}</td>
+              <td>{{ vid.texto_resumen }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+</div>
+{% endblock content %}
 
-    
-    {% endblock content %}
-    
 {% block js %}
-    
-    <script>
-        function btnProcesar(id){
-            $.ajax({
-                type: "GET",
-                url: "/gestionarcontenido/procesar/video/"+id,
-                dataType: "json",
-                success: function (data) {
-                    
-                    location.reload();
-                }
-            });
-        }
-        
-        function btnProcesarResumen(id){
-            $.ajax({
-                type: "GET",
-                url: "/gestionarcontenido/procesar/resumen/"+id,
-                dataType: "json",
-                success: function (data) {
-                    location.reload();
-                }
-            });
-        }
+<script>
+  function btnProcesar(id) {
+    $.ajax({
+      type: "GET",
+      url: "/gestionarcontenido/procesar/video/" + id,
+      dataType: "json",
+      success: function (data) {
+        location.reload();
+      },
+    });
+  }
 
-        function btnProcesarDocumento(id){
-            $.ajax({
-                type: "GET",
-                url: "/gestionarcontenido/procesar/documento/"+id,
-                dataType: "json",
-                success: function (data) {
-                    location.reload();
-                }
-            });
-        }
-    </script>
+  function btnProcesarResumen(id) {
+    $.ajax({
+      type: "GET",
+      url: "/gestionarcontenido/procesar/resumen/" + id,
+      dataType: "json",
+      success: function (data) {
+        location.reload();
+      },
+    });
+  }
 
+  function btnProcesarDocumento(id) {
+    $.ajax({
+      type: "GET",
+      url: "/gestionarcontenido/procesar/documento/" + id,
+      dataType: "json",
+      success: function (data) {
+        location.reload();
+      },
+    });
+  }
+
+function registrarReproduccion(id, tipo) {
+  $.ajax({
+    type: "POST",
+    url: "/datos/registrar-reproduccion/" + id + "/",
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken"),
+    },
+    success: function (data) {
+      console.log("Reproducción registrada:", data);
+    },
+    error: function (error) {
+      console.error("Error al registrar reproducción:", error);
+    },
+  });
+}
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
 {% endblock js %}

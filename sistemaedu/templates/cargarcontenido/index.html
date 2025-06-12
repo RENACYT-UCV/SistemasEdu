@@ -66,12 +66,14 @@
                 <table class="table table-stripped">
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>nombre</th>
-                            <th>descripcion</th>
-                            <th>video</th>
-                            <th>genera_alumno</th>
-                            <th>accion</th>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                            <th>Video</th>
+                            <th>Gestionable por alumnos</th>
+                            {% if group.name == 'Admin' %}
+                            <th>Accion</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -81,7 +83,7 @@
                                 <td>{{vid.nombre}}</td>
                                 <td>{{vid.descripcion}}</td>
                                 <td>
-                                    <video width="220" height="140" controls>
+                                    <video width="220" height="140" controls onplaying="registrarReproduccion('{{ vid.id }}', 'original')">
                                         <source src="{{ vid.get_video_url }}" type="video/mp4">
                                         Your browser does not support the video tag.
                                     </video>
@@ -113,3 +115,38 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block js %}
+<script>
+function registrarReproduccion(id, tipo) {
+  $.ajax({
+    type: "POST",
+    url: "/datos/registrar-reproduccion/" + id + "/",
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken"),
+    },
+    success: function (data) {
+      console.log("Reproducción registrada:", data);
+    },
+    error: function (error) {
+      console.error("Error al registrar reproducción:", error);
+    },
+  });
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+  </script>
+{% endblock js %}
