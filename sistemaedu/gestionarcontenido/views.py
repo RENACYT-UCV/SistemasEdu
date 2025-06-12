@@ -2,7 +2,7 @@ from django.shortcuts import render
 from cargarcontenido.models import *
 from django.http import JsonResponse
 from datetime import datetime
-from moviepy.editor import VideoFileClip, concatenate_videoclips
+from moviepy import VideoFileClip, concatenate_videoclips
 
 from django.shortcuts import render
 from django.http import JsonResponse
